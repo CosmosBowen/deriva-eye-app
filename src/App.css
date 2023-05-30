@@ -1,0 +1,111 @@
+.image-container {
+  width: 400px;
+  /* Set the desired width of the frame */
+  height: 300px;
+  /* Set the desired height of the frame */
+  overflow: hidden;
+  position: relative;
+}
+
+.image {
+  width: 400px;
+  /* Set the desired width of the frame */
+  height: 300px;
+  /* Set the desired height of the frame */
+  overflow: hidden;
+  position: relative;
+}
+
+.image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  /* Maintain original aspect ratio */
+}
+
+.zoomed-in {
+  transform: scale(2);
+  transition: transform 0.3s;
+}
+
+body {
+  background-image: url('./background.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.screen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* This line ensures the container takes the full viewport height */
+  margin: 20px;
+  /* Margin against the border of the screen */
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* Margin against the border of the screen */
+}
+
+.center {
+  text-align: center;
+}
+
+.group {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.vertical-items {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+table {
+  border-collapse: collapse;
+  margin: 20px;
+  /* Spacing between the table and other elements */
+}
+
+td,
+th {
+  border: 1px solid black;
+  padding: 8px;
+}
+
+button,
+input {
+  display: inline-block;
+  padding: 8px 16px;
+  font-size: 16px;
+  font-weight: 300;
+  color: white;
+  background-color: #195fbb;
+  border: none;
+  border-radius: 4px;
+  text-align: center;
+  text-decoration: none;
+  transition: all 0.3s ease-out;
+  cursor: pointer;
+  margin: 10px;
+}
+
+button:hover,
+input:hover,
+.td-number:hover {
+  background-color: #0056b3;
+}
+
+button:active,
+input:active,
+.td-number:active {
+  background-color: #004085;
+}

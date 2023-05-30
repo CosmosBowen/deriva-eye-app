@@ -1,0 +1,32 @@
+[
+    {
+        "RID": "1",
+        "Cup/Disk_Ratio": 0.8,
+        "Image_Quality_Vocab.Name": "Good",
+        "Diagnosis_Image_Vocab.Name": ""
+    },
+    {
+        "RID": "2",
+        "Cup/Disk_Ratio": 0.9,
+        "Image_Quality_Vocab.Name": "Good",
+        "Diagnosis_Image_Vocab.Name": ""
+    },
+    {
+        "RID": "3",
+        "Cup/Disk_Ratio": 0.9,
+        "Image_Quality_Vocab.Name": "Bad",
+        "Diagnosis_Image_Vocab.Name": ""
+    },
+    {
+        "RID": "4",
+        "Cup/Disk_Ratio": 0.2,
+        "Image_Quality_Vocab.Name": "Good",
+        "Diagnosis_Image_Vocab.Name": ""
+    },
+    {
+        "RID": "5",
+        "Cup/Disk_Ratio": 0.3,
+        "Image_Quality_Vocab.Name": "Bad",
+        "Diagnosis_Image_Vocab.Name": ""
+    }
+]
