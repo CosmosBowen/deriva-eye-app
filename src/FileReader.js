@@ -39,7 +39,7 @@ const FileReaderComponent = () => {
             <div className='group'>
                 <input type="file" onChange={handleFileChange} accept=".json" />
                 {jsonData && (
-                    <button onClick={saveData}>Quit</button>
+                    <button onClick={saveData} style={{ marginRight: '50px' }}>Quit</button>
                 )}
 
             </div>

@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react';
-// import NumberChooser from './NumberPicker';
-
+import NumberChooser from './NumberPicker';
 // import ImageZoom from './ImageInteract';
 // import ReactImageZoom from 'react-image-zoom';
 // import ThingMap from './image';
 // import Zoom from 'react-img-zoom';
 import { MapInteractionCSS } from 'react-map-interaction';
-// import ImageComponent from './ImageComponent';
-import SliderComponent from './NumberSlider';
 
 const DetailsComponent = ({ jsonData }) => {
     // const url = "https://blogs.smithsonianmag.com/smartnews/files/2012/11/544f0cc8686bd978ffa143777db1f287.jpeg";
@@ -18,38 +15,20 @@ const DetailsComponent = ({ jsonData }) => {
     //Diagnosis_Image_Vocab.Name
     const dropdown3 = ["No Glaucoma", "Suspected Glaucoma"]
 
-    // const [sliderValue, setSliderValue] = useState(1);
-    const numberMax = jsonData.length;
-    const handleSliderChange = (value) => {
-        setCurrentIndex(value - 1);
-    };
-
-
-    // const numbers = Array(jsonData.length).fill(0);
-    // const handleSelect = (number) => {
-    //     const index = number - 1;
-    //     setCurrentIndex(index);
-
-    // };
-
     const [currentIndex, setCurrentIndex] = useState(0);
     const currentObject = jsonData[currentIndex];
-    const url = 'http://localhost:3001/hatrac/images/scans/subject/1000355/observation/1440097/image/14360314/cee45653be1a0ad4462eb7d9f216871e.jpg';
-    // const imageUrl = 'http://localhost:3001/images/scans/subject/1000355/observation/1440097/image/14360314/cee45653be1a0ad4462eb7d9f216871e.jpg';
 
-    // const [imageUrl, setImageUrl] = useState('http://localhost:3001' + currentObject['URL']);
     const [imageUrl, setImageUrl] = useState(currentObject['URL']);
     const [selectedValue1, setSelectedValue1] = useState(currentObject['Cup/Disk_Ratio']);
     const [selectedValue2, setSelectedValue2] = useState(currentObject['Image_Quality_Vocab.Name']);
     const [selectedValue3, setSelectedValue3] = useState(currentObject['Diagnosis_Image_Vocab.Name']);
     const [comments, setComments] = useState(currentObject['Comments']);
 
-    const [isPanelVisible, setPanelVisibility] = useState(true);
+    const [isPanelVisible, setPanelVisibility] = useState(false);
 
 
     useEffect(() => {
         // console.log("initiate new object");
-        // setImageUrl('http://localhost:3001' + currentObject['URL']);
         setImageUrl(currentObject['URL']);
         // console.log("image:", imageUrl);
         setSelectedValue1(currentObject['Cup/Disk_Ratio']);
@@ -93,25 +72,13 @@ const DetailsComponent = ({ jsonData }) => {
     const showNextObject = () => {
         saveAndShowData();
         setCurrentIndex((prevIndex) => (prevIndex + 1) % jsonData.length);
-        // if (sliderValue < maxNum) {
-        //     setSliderValue(sliderValue + 1);
-        // } else {
-        //     setSliderValue(1);
-        // }
-
-        // setPanelVisibility(false);
+        setPanelVisibility(false);
     };
 
     const showPreviousObject = () => {
         saveAndShowData();
         setCurrentIndex((prevIndex) => prevIndex === 0 ? jsonData.length - 1 : prevIndex - 1);
-        // if (sliderValue > 1) {
-        //     setSliderValue(sliderValue - 1);
-        // } else {
-        //     setSliderValue(numberMax);
-        // }
-
-        // setPanelVisibility(false);
+        setPanelVisibility(false);
     };
 
     const saveAndShowData = () => {
@@ -124,10 +91,10 @@ const DetailsComponent = ({ jsonData }) => {
             jsonData[currentIndex]['Comments'] = comments;
         }
 
-        console.log("#current ", currentIndex);
-        console.log("#1:", jsonData[currentIndex]['Cup/Disk_Ratio'])
-        console.log("#2:", jsonData[currentIndex]['Image_Quality_Vocab.Name'])
-        console.log("#3:", jsonData[currentIndex]['Diagnosis_Image_Vocab.Name'])
+        console.log("#", currentIndex);
+        console.log("1:", jsonData[currentIndex]['Cup/Disk_Ratio'])
+        console.log("2:", jsonData[currentIndex]['Image_Quality_Vocab.Name'])
+        console.log("3:", jsonData[currentIndex]['Diagnosis_Image_Vocab.Name'])
         if (comments) {
             console.log("4:", jsonData[currentIndex]['Comments'])
         }
@@ -204,122 +171,118 @@ const DetailsComponent = ({ jsonData }) => {
         setPanelVisibility(true);
     }
 
+    const numbers = Array(jsonData.length).fill(0);
+    const handleSelect = (number) => {
+        const index = number - 1;
+        setCurrentIndex(index);
 
+    };
 
     // const props = { width: 400, scale: 1.8, zoomPosition: "original", zoomWidth: 300, img: { imageUrl }, height: 300 };
 
 
     return (
 
-        <div className='container-box'>
-            <div className="container">
-                <div className="group">
-                    <div className='vertical-items'>
-                        <button onClick={handleShowPanel}>
-                            {currentIndex + 1}/{jsonData.length}
-                        </button>
-                        <SliderComponent maxNum={numberMax} onSelect={handleSliderChange} value={currentIndex
-                            + 1} />
-                        {/* {isPanelVisible && (
-                            <SliderComponent maxNum={numberMax} onSelect={handleSliderChange} />
-                            // <NumberChooser data={numbers} onSelect={handleSelect} />
-                        )} */}
-                    </div>
 
-
-
-                    <button onClick={showPreviousObject}>Previous</button>
-                    <button onClick={showNextObject}>Next</button>
-
-
+        <div className="container">
+            <div className="group">
+                <div className='vertical-items'>
+                    <button onClick={handleShowPanel}>
+                        {currentIndex + 1}/{jsonData.length}
+                    </button>
+                    {isPanelVisible && (
+                        <NumberChooser data={numbers} onSelect={handleSelect} />
+                    )}
                 </div>
-                <table className="center">
-                    <tbody>
-                        <tr key="image">
-                            <td></td>
-                            <td>
-                                <div className='image-container'>
-                                    <MapInteractionCSS>
-                                        {/* <ImageComponent imageUrl={imageUrl} /> */}
-                                        <img className="myImage" src={imageUrl} alt='eye-ball' />
-                                    </MapInteractionCSS>
-                                    {/* <Zoom
+
+
+
+                <button onClick={showPreviousObject}>Previous</button>
+                <button onClick={showNextObject}>Next</button>
+
+
+            </div>
+            <table className="center">
+                <tbody>
+                    <tr key="image">
+                        <td>Image</td>
+                        <td>
+                            <div className='image-container'>
+                                <MapInteractionCSS>
+                                    <img src={imageUrl} alt='eye-ball' />
+                                </MapInteractionCSS>
+                                {/* <Zoom
                                     img={imageUrl}
                                     zoomScale={3}
                                     width={300}
                                     height={300}
                                 /> */}
-                                </div>
+                            </div>
 
-                                {/* <ThingMap url={imageUrl} /> */}
+                            {/* <ThingMap url={imageUrl} /> */}
 
-                                {/* <ReactImageZoom {...props} alt="Image" class="image-class" scale="1.8" /> */}
-                                {/* <ImageZoom imageUrl={imageUrl} /> */}
-                                {/* <img src={imageUrl} alt="Placeholder" class="image-class" /> */}
-                            </td>
-                        </tr>
-                        <tr key="Cup/Disk_Ratio">
-                            <td>Cup/Disk_Ratio</td>
-                            <td>
-                                <select value={selectedValue1} onChange={handleValue1Change}>
-                                    {dropdown1.map((option) => (
-                                        <option key={option} value={option}>
-                                            {/* {option === selectedValue2 ? `${option}` : option} */}
-                                            {option}
-                                        </option>
-                                    ))}
-                                </select>
-                            </td>
-                        </tr>
-
-
-                        <tr key="Diagnosis">
-                            <td>Diagnosis</td>
-                            <td>
-                                <select value={selectedValue3} onChange={handleValue3Change}>
-                                    {dropdown3.map((option) => (
-                                        <option key={option} value={option}>
-                                            {option}
-                                        </option>
-                                    ))}
-                                </select>
-                            </td>
-                        </tr>
-
-                        <tr key="Image_Quality">
-                            <td>Image_Quality</td>
-                            <td>
-                                <select value={selectedValue2} onChange={handleValue2Change}>
-                                    {dropdown2.map((option) => (
-                                        <option key={option} value={option}>
-                                            {option}
-                                        </option>
-                                    ))}
-                                </select>
-                            </td>
-                        </tr>
-
-                        {comments !== undefined && (
-                            <>
-                                <tr key="Comment">
-                                    <td>Comments</td>
-                                    <td>
-                                        <textarea placeholder="Explain your decision here ..." value={comments}
-                                            onChange={handleTextareaChange}></textarea>
-                                    </td>
-                                </tr>
-                            </>
-                        )}
+                            {/* <ReactImageZoom {...props} alt="Image" class="image-class" scale="1.8" /> */}
+                            {/* <ImageZoom imageUrl={imageUrl} /> */}
+                            {/* <img src={imageUrl} alt="Placeholder" class="image-class" /> */}
+                        </td>
+                    </tr>
+                    <tr key="Cup/Disk_Ratio">
+                        <td>Cup/Disk_Ratio</td>
+                        <td>
+                            <select value={selectedValue1} onChange={handleValue1Change}>
+                                {dropdown1.map((option) => (
+                                    <option key={option} value={option}>
+                                        {/* {option === selectedValue2 ? `${option}` : option} */}
+                                        {option}
+                                    </option>
+                                ))}
+                            </select>
+                        </td>
+                    </tr>
 
 
-                    </tbody>
-                </table>
-                <div className="group">
-                    <button onClick={showNextObject}>Next</button>
-                </div>
+                    <tr key="Image_Quality">
+                        <td>Image_Quality:</td>
+                        <td>
+                            <select value={selectedValue2} onChange={handleValue2Change}>
+                                {dropdown2.map((option) => (
+                                    <option key={option} value={option}>
+                                        {option}
+                                    </option>
+                                ))}
+                            </select>
+                        </td>
+                    </tr>
 
-            </div>
+                    <tr key="Diagnosis">
+                        <td>Diagnosis:</td>
+                        <td>
+                            <select value={selectedValue3} onChange={handleValue3Change}>
+                                {dropdown3.map((option) => (
+                                    <option key={option} value={option}>
+                                        {option}
+                                    </option>
+                                ))}
+                            </select>
+                        </td>
+                    </tr>
+                    {comments !== undefined && (
+                        <>
+                            <tr key="Comment">
+                                <td>Comments:</td>
+                                <td>
+                                    <textarea placeholder="Explain your decision here ..." value={comments}
+                                        onChange={handleTextareaChange}></textarea>
+                                </td>
+                            </tr>
+                        </>
+                    )}
+
+
+                </tbody>
+            </table>
         </div>
+
 
     );
 }
