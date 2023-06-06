@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+
 // import NumberChooser from './NumberPicker';
 
 // import ImageZoom from './ImageInteract';
@@ -6,10 +7,30 @@ import React, { useState, useEffect } from 'react';
 // import ThingMap from './image';
 // import Zoom from 'react-img-zoom';
 import { MapInteractionCSS } from 'react-map-interaction';
-// import ImageComponent from './ImageComponent';
+import ImageComponent from './ImageComponent';
 import SliderComponent from './NumberSlider';
 
 const DetailsComponent = ({ jsonData }) => {
+    // const DetailsComponent = () => {
+    //     const [jsonData, setJsonData] = useState(null);
+    //     useEffect(() => {
+    //         const fetchData = async () => {
+    //             const url = 'https://dev.eye-ai.org/ermrest/catalog/eye-ai/entity/Image_Dataset:=eye-ai:Image_Dataset/Dataset=68X4/Image:=eye-ai:Image/Diagnosis:=eye-ai:Diagnosis/Diagnosis_Tag=M7NW';
+
+    //             try {
+    //                 const response = await axios.get(url);
+
+    //                 setJsonData(response.data);
+
+    //                 console.log("Fetched data:", response.data);
+    //             } catch (error) {
+    //                 console.error('Failed to fetch data:', error);
+    //             }
+    //         };
+
+    //         fetchData();
+    //     }, []);  // empty dependency array means this effect runs once on mount
+
     // const url = "https://blogs.smithsonianmag.com/smartnews/files/2012/11/544f0cc8686bd978ffa143777db1f287.jpeg";
     //Cup/Disk_Ratio
     const dropdown1 = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
@@ -37,8 +58,8 @@ const DetailsComponent = ({ jsonData }) => {
     const url = 'http://localhost:3001/hatrac/images/scans/subject/1000355/observation/1440097/image/14360314/cee45653be1a0ad4462eb7d9f216871e.jpg';
     // const imageUrl = 'http://localhost:3001/images/scans/subject/1000355/observation/1440097/image/14360314/cee45653be1a0ad4462eb7d9f216871e.jpg';
 
-    const [imageUrl, setImageUrl] = useState('http://localhost:3001' + currentObject['URL']);
-    // const [imageUrl, setImageUrl] = useState(currentObject['URL']);
+    // const [imageUrl, setImageUrl] = useState('http://localhost:3001' + currentObject['URL']);
+    const [imageUrl, setImageUrl] = useState(currentObject['URL']);
     const [selectedValue1, setSelectedValue1] = useState(currentObject['Cup/Disk_Ratio']);
     const [selectedValue2, setSelectedValue2] = useState(currentObject['Image_Quality_Vocab.Name']);
     const [selectedValue3, setSelectedValue3] = useState(currentObject['Diagnosis_Image_Vocab.Name']);
@@ -49,8 +70,8 @@ const DetailsComponent = ({ jsonData }) => {
 
     useEffect(() => {
         // console.log("initiate new object");
-        setImageUrl('http://localhost:3001' + currentObject['URL']);
-        // setImageUrl(currentObject['URL']);
+        // setImageUrl('http://localhost:3001' + currentObject['URL']);
+        setImageUrl(currentObject['URL']);
         // console.log("image:", imageUrl);
         setSelectedValue1(currentObject['Cup/Disk_Ratio']);
         setSelectedValue2(currentObject['Image_Quality_Vocab.Name']);
@@ -240,8 +261,8 @@ const DetailsComponent = ({ jsonData }) => {
                             <td>
                                 <div className='image-container'>
                                     <MapInteractionCSS>
-                                        {/* <ImageComponent imageUrl={imageUrl} /> */}
-                                        <img className="myImage" src={imageUrl} alt='eye-ball' />
+                                        <ImageComponent imageUrl={imageUrl} />
+                                        {/* <img className="myImage" src={imageUrl} alt='eye-ball' /> */}
                                     </MapInteractionCSS>
                                     {/* <Zoom
                                     img={imageUrl}
@@ -314,9 +335,9 @@ const DetailsComponent = ({ jsonData }) => {
 
                     </tbody>
                 </table>
-                {/* <div className="group">
+                <div className="group">
                     <button onClick={showNextObject}>Next</button>
-                </div> */}
+                </div>
 
             </div>
         </div>

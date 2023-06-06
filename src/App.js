@@ -1,6 +1,7 @@
 import './App.css';
+import UrlReaderComponent from './UrlReader';
 import FileReaderComponent from './FileReader';
-import ImageComponent from './ImageComponent';
+import YourComponent from './test';
 
 const currentUrl = "/hatrac/images/scans/subject/1000355/observation/1440097/image/14360313/b3eedb890fe27e18c9d940ed25810cec.jpg";
 const url = 'http://localhost:3001' + currentUrl;
@@ -10,8 +11,7 @@ function App() {
   return (
 
     <div className='body'>
-      {/* <ImageComponent imageUrl={url} />
-      <ImageComponent imageUrl={exampleUrl} /> */}
+      {/* <UrlReaderComponent /> */}
       <FileReaderComponent />
     </div>
   );

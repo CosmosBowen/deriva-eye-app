@@ -8,7 +8,7 @@ app.use(cors());
 
 app.get('/hatrac/*', async (req, res) => {
     const url = 'https://dev.eye-ai.org' + req.originalUrl;
-
+    console.log("*Image server complete url:", url);
     try {
         const response = await axios.get(url, {
             headers: {
@@ -21,6 +21,25 @@ app.get('/hatrac/*', async (req, res) => {
         res.send(Buffer.from(response.data, 'binary'));
     } catch (error) {
         res.status(500).send('Error fetching image');
+    }
+});
+
+app.get('/ermrest/*', async (req, res) => {
+    const url = 'https://dev.eye-ai.org' + req.originalUrl;
+    console.log("^Data server complete url:", url);
+
+    try {
+        const response = await axios.get(url, {
+            headers: {
+                Authorization: `Bearer ${TOKEN}`,
+            },
+            responseType: 'arraybuffer',
+        });
+        // response.setHeader("Access-Control-Allow-Origin", "*");
+
+        res.send(Buffer.from(response.data, 'binary'));
+    } catch (error) {
+        res.status(500).send('Error fetching data');
     }
 });
 
