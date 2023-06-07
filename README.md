@@ -2,3 +2,14 @@
  web app built for EYE-AI open url: https://webapp-eye-ai.wl.r.appspot.com/ and load data : /data/eyes-data.json then play with it!
  
 Note: click "Quit" button to save all the changes in a new file "updated-data.json" you made with the original data file.
+
+## Development Setup
+To start the development server, first install required dependencies with:
+
+    npm install
+
+you can then run:
+
+    npm start
+
+Which should start the app server bound to port `3000`.
