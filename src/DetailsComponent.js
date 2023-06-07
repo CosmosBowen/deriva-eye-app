@@ -37,7 +37,7 @@ const DetailsComponent = ({ jsonData }) => {
     const url = 'http://localhost:3001/hatrac/images/scans/subject/1000355/observation/1440097/image/14360314/cee45653be1a0ad4462eb7d9f216871e.jpg';
     // const imageUrl = 'http://localhost:3001/images/scans/subject/1000355/observation/1440097/image/14360314/cee45653be1a0ad4462eb7d9f216871e.jpg';
 
-    const [imageUrl, setImageUrl] = useState('http://localhost:3001' + currentObject['URL']);
+    const [imageUrl, setImageUrl] = useState(currentObject['URL']);
     // const [imageUrl, setImageUrl] = useState(currentObject['URL']);
     const [selectedValue1, setSelectedValue1] = useState(currentObject['Cup/Disk_Ratio']);
     const [selectedValue2, setSelectedValue2] = useState(currentObject['Image_Quality_Vocab.Name']);
@@ -49,7 +49,7 @@ const DetailsComponent = ({ jsonData }) => {
 
     useEffect(() => {
         // console.log("initiate new object");
-        setImageUrl('http://localhost:3001' + currentObject['URL']);
+        setImageUrl(currentObject['URL']);
         // setImageUrl(currentObject['URL']);
         // console.log("image:", imageUrl);
         setSelectedValue1(currentObject['Cup/Disk_Ratio']);
