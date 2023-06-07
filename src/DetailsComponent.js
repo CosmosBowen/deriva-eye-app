@@ -246,8 +246,7 @@ const DetailsComponent = ({ jsonData }) => {
                                     {/* <Zoom
                                     img={imageUrl}
                                     zoomScale={3}
-                                    width={300}
-                                    height={300}
+                                    width="100%"
                                 /> */}
                                 </div>
 

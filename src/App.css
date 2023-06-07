@@ -1,7 +1,7 @@
 .image-container {
-  width: 600px;
+  width: 100%;
   /* Set the desired width of the frame */
-  height: 400px;
+  height: 100%;
   /* Set the desired height of the frame */
 
   /* overflow: hidden;
