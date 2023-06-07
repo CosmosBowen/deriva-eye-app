@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 // import NumberChooser from './NumberPicker';
 
 // import ImageZoom from './ImageInteract';
@@ -11,6 +11,10 @@ import SliderComponent from './NumberSlider';
 import { HotKeys } from 'react-hotkeys'
 
 const DetailsComponent = ({ jsonData }) => {
+    const element1Ref = useRef(null);
+    const element2Ref = useRef(null);
+    const element3Ref = useRef(null);
+
     // const url = "https://blogs.smithsonianmag.com/smartnews/files/2012/11/544f0cc8686bd978ffa143777db1f287.jpeg";
     //Cup/Disk_Ratio
     const dropdown1 = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
@@ -47,6 +51,7 @@ const DetailsComponent = ({ jsonData }) => {
 
     const [isPanelVisible, setPanelVisibility] = useState(true);
 
+    const [, forceUpdate] = useState('')
 
     useEffect(() => {
         // console.log("initiate new object");
@@ -59,7 +64,7 @@ const DetailsComponent = ({ jsonData }) => {
         // setSelectedValue3(currentObject['Diagnosis_Image_Vocab.Name']);
         if (currentObject['Diagnosis_Image_Vocab.Name'] === '') {
             // console.log("initial value3")
-            const initialValue3 = currentObject['Cup/Disk_Ratio'] > 0.7 ? "Suspected Glaucoma" : "No Glaucoma";
+            const initialValue3 = currentObject['Cup/Disk_Ratio'] >= 0.6 ? "Suspected Glaucoma" : "No Glaucoma";
             currentObject['Diagnosis_Image_Vocab.Name'] = initialValue3;
             setSelectedValue3(initialValue3);
             // console.log("*1:", currentObject['Cup/Disk_Ratio']);
@@ -116,9 +121,9 @@ const DetailsComponent = ({ jsonData }) => {
     };
 
     const saveAndShowData = () => {
-        jsonData[currentIndex]['Cup/Disk_Ratio'] = selectedValue1;
-        jsonData[currentIndex]['Image_Quality_Vocab.Name'] = selectedValue2;
-        jsonData[currentIndex]['Diagnosis_Image_Vocab.Name'] = selectedValue3;
+        jsonData[currentIndex]['Cup/Disk_Ratio'] = element1Ref.current.value;
+        jsonData[currentIndex]['Image_Quality_Vocab.Name'] = element2Ref.current.value;
+        jsonData[currentIndex]['Diagnosis_Image_Vocab.Name'] = element3Ref.current.value;
         if (comments === undefined) {
             delete jsonData[currentIndex]['Comments'];
         } else {
@@ -153,6 +158,7 @@ const DetailsComponent = ({ jsonData }) => {
             console.log("add comments!")
             setComments('');
         }
+        forceUpdate();
     }
 
     const handleValue2Change = (event) => {
@@ -169,7 +175,7 @@ const DetailsComponent = ({ jsonData }) => {
         console.log("value3 change:", selectedValue);
 
         console.log("value3 updates comments(", selectedValue, ")");
-        if ((selectedValue1 >= 0.6 && selectedValue === "No Glaucoma") | (selectedValue1 < 0.6 && selectedValue === "Suspected Glaucoma")) {
+        if ((element1Ref.current.value >= 0.6 && selectedValue === "No Glaucoma") | (element1Ref.current.value < 0.6 && selectedValue === "Suspected Glaucoma")) {
             console.log("add comments!");
             if (currentObject['Comments'] === undefined) {
                 setComments('');
@@ -345,7 +351,7 @@ const DetailsComponent = ({ jsonData }) => {
                             <tr key="Cup/Disk_Ratio">
                                 <td>Cup/Disk_Ratio</td>
                                 <td>
-                                    <select value={selectedValue1} onChange={handleValue1Change}>
+                                    <select value={selectedValue1} onChange={handleValue1Change} ref={element1Ref}>
                                         {dropdown1.map((option) => (
                                             <option key={option} value={option}>
                                                 {/* {option === selectedValue2 ? `${option}` : option} */}
@@ -360,7 +366,7 @@ const DetailsComponent = ({ jsonData }) => {
                             <tr key="Diagnosis">
                                 <td>Diagnosis</td>
                                 <td>
-                                    <select value={selectedValue3} onChange={handleValue3Change}>
+                                    <select value={selectedValue3} onChange={handleValue3Change} ref={element3Ref}>
                                         {dropdown3.map((option) => (
                                             <option key={option} value={option}>
                                                 {option}
@@ -373,7 +379,7 @@ const DetailsComponent = ({ jsonData }) => {
                             <tr key="Image_Quality">
                                 <td>Image_Quality</td>
                                 <td>
-                                    <select value={selectedValue2} onChange={handleValue2Change}>
+                                    <select value={selectedValue2} onChange={handleValue2Change} ref={element2Ref}>
                                         {dropdown2.map((option) => (
                                             <option key={option} value={option}>
                                                 {option}
