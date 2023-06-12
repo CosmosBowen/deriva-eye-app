@@ -11,12 +11,11 @@ import SliderComponent from './NumberSlider';
 import { HotKeys } from 'react-hotkeys'
 
 const DetailsComponent = ({ jsonData }) => {
-    const imageRef = useRef(null);
     const element1Ref = useRef(null);
     const element2Ref = useRef(null);
     const element3Ref = useRef(null);
-    const commentsRef = useRef(null);
 
+    // const url = "https://blogs.smithsonianmag.com/smartnews/files/2012/11/544f0cc8686bd978ffa143777db1f287.jpeg";
     //Cup/Disk_Ratio
     const dropdown1 = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
     //Image_Quality_Vocab.Name
@@ -30,90 +29,112 @@ const DetailsComponent = ({ jsonData }) => {
         setCurrentIndex(value - 1);
     };
 
+
+    // const numbers = Array(jsonData.length).fill(0);
+    // const handleSelect = (number) => {
+    //     const index = number - 1;
+    //     setCurrentIndex(index);
+
+    // };
+
     const [currentIndex, setCurrentIndex] = useState(0);
     const currentObject = jsonData[currentIndex];
-    console.log("currentObject:", currentObject);
+    const url = 'http://localhost:3001/hatrac/images/scans/subject/1000355/observation/1440097/image/14360314/cee45653be1a0ad4462eb7d9f216871e.jpg';
+    // const imageUrl = 'http://localhost:3001/images/scans/subject/1000355/observation/1440097/image/14360314/cee45653be1a0ad4462eb7d9f216871e.jpg';
 
-    if (imageRef.current && element1Ref.current && element2Ref.current && element3Ref.current && commentsRef.current && currentObject) {
-        imageRef.current.src = currentObject['URL'];
-        element1Ref.current.value = currentObject['Cup/Disk_Ratio'];
-        element2Ref.current.value = currentObject['Image_Quality_Vocab.Name'];
-        // element3Ref.current.value = currentObject['Diagnosis_Image_Vocab.Name'];
-        if (currentObject['Diagnosis_Image_Vocab.Name'] === '') {
-            const initialValue3 = currentObject['Cup/Disk_Ratio'] >= 0.6 ? "Suspected Glaucoma" : "No Glaucoma";
-            currentObject['Diagnosis_Image_Vocab.Name'] = initialValue3;
-            element3Ref.current.value = initialValue3;
-        } else {
-            element3Ref.current.value = currentObject['Diagnosis_Image_Vocab.Name'];
-        }
-        commentsRef.current.value = currentObject['Comments'];
-    }
-
-
-
+    const [imageUrl, setImageUrl] = useState(currentObject['URL']);
     // const [imageUrl, setImageUrl] = useState(currentObject['URL']);
-    // const [selectedValue1, setSelectedValue1] = useState(currentObject['Cup/Disk_Ratio']);
-    // const [selectedValue2, setSelectedValue2] = useState(currentObject['Image_Quality_Vocab.Name']);
-    // const [selectedValue3, setSelectedValue3] = useState(currentObject['Diagnosis_Image_Vocab.Name']);
-    // const [comments, setComments] = useState(currentObject['Comments']);
+    const [selectedValue1, setSelectedValue1] = useState(currentObject['Cup/Disk_Ratio']);
+    const [selectedValue2, setSelectedValue2] = useState(currentObject['Image_Quality_Vocab.Name']);
+    const [selectedValue3, setSelectedValue3] = useState(currentObject['Diagnosis_Image_Vocab.Name']);
+    const [comments, setComments] = useState(currentObject['Comments']);
 
+    const [isPanelVisible, setPanelVisibility] = useState(true);
 
     const [, forceUpdate] = useState('')
 
     useEffect(() => {
-        //initiate new object
-        console.log("use Effect---currentObject:", currentObject);
-        currentObject = jsonData[currentIndex];
-        if (imageRef.current && element1Ref.current && element2Ref.current && element3Ref.current && commentsRef.current && currentObject) {
-            // if (imageRef.current && element1Ref.current && element2Ref.current && element3Ref.current && commentsRef.current) {
-            imageRef.current.src = currentObject['URL'];
-            element1Ref.current.value = currentObject['Cup/Disk_Ratio'];
-            element2Ref.current.value = currentObject['Image_Quality_Vocab.Name'];
-            // setImageUrl(currentObject['URL']);
-            // setSelectedValue1(currentObject['Cup/Disk_Ratio']);
-            // setSelectedValue2(currentObject['Image_Quality_Vocab.Name']);
-            if (currentObject['Diagnosis_Image_Vocab.Name'] === '') {
-                const initialValue3 = currentObject['Cup/Disk_Ratio'] >= 0.6 ? "Suspected Glaucoma" : "No Glaucoma";
-                currentObject['Diagnosis_Image_Vocab.Name'] = initialValue3;
-                element3Ref.current.value = initialValue3;
-                // setSelectedValue3(initialValue3);
-            } else {
-                element3Ref.current.value = currentObject['Diagnosis_Image_Vocab.Name'];
-                // setSelectedValue3(currentObject['Diagnosis_Image_Vocab.Name']);
-            }
-            commentsRef.current.value = currentObject['Comments'];
-            // setComments(currentObject['Comments']);
+        // console.log("initiate new object");
+        setImageUrl(currentObject['URL']);
+        // setImageUrl(currentObject['URL']);
+        // console.log("image:", imageUrl);
+        setSelectedValue1(currentObject['Cup/Disk_Ratio']);
+        setSelectedValue2(currentObject['Image_Quality_Vocab.Name']);
+        // console.log("current 1:", currentObject['Cup/Disk_Ratio']);
+        // setSelectedValue3(currentObject['Diagnosis_Image_Vocab.Name']);
+        if (currentObject['Diagnosis_Image_Vocab.Name'] === '') {
+            // console.log("initial value3")
+            const initialValue3 = currentObject['Cup/Disk_Ratio'] >= 0.6 ? "Suspected Glaucoma" : "No Glaucoma";
+            currentObject['Diagnosis_Image_Vocab.Name'] = initialValue3;
+            setSelectedValue3(initialValue3);
+            // console.log("*1:", currentObject['Cup/Disk_Ratio']);
+            // console.log("*3:", initialValue3);
+        } else {
+            setSelectedValue3(currentObject['Diagnosis_Image_Vocab.Name']);
         }
+        setComments(currentObject['Comments']);
+    }, [currentObject]);
 
-    }, [currentIndex]);
+
+
+    // useEffect(() => {
+    //     console.log("value3 updates comments(", selectedValue3, ")");
+    //     if ((selectedValue1 > 0.7 && selectedValue3 == "No Glaucoma") | (selectedValue1 <= 0.7 && selectedValue3 == "Suspected Glaucoma")) {
+    //         console.log("add comments!");
+    //         if (currentObject['Comments'] == undefined) {
+    //             setComments('');
+    //         } else if (currentObject['Comments'] != '') {
+    //             setComments(currentObject['Comments']);
+    //         } else {
+    //             setComments('');
+    //         }
+
+    //     } else {
+    //         console.log("no comments.")
+    //         setComments(undefined);
+    //     }
+
+    // }, [selectedValue3, currentObject]);
 
     const showNextObject = () => {
         saveAndShowData();
         setCurrentIndex((prevIndex) => (prevIndex + 1) % jsonData.length);
+        // if (sliderValue < maxNum) {
+        //     setSliderValue(sliderValue + 1);
+        // } else {
+        //     setSliderValue(1);
+        // }
+
+        // setPanelVisibility(false);
     };
 
     const showPreviousObject = () => {
         saveAndShowData();
         setCurrentIndex((prevIndex) => prevIndex === 0 ? jsonData.length - 1 : prevIndex - 1);
+        // if (sliderValue > 1) {
+        //     setSliderValue(sliderValue - 1);
+        // } else {
+        //     setSliderValue(numberMax);
+        // }
+
+        // setPanelVisibility(false);
     };
 
     const saveAndShowData = () => {
         jsonData[currentIndex]['Cup/Disk_Ratio'] = element1Ref.current.value;
         jsonData[currentIndex]['Image_Quality_Vocab.Name'] = element2Ref.current.value;
         jsonData[currentIndex]['Diagnosis_Image_Vocab.Name'] = element3Ref.current.value;
-        // if (comments === undefined) {
-        if (commentsRef.current.value === undefined) {
+        if (comments === undefined) {
             delete jsonData[currentIndex]['Comments'];
         } else {
-            jsonData[currentIndex]['Comments'] = commentsRef.current.value;
+            jsonData[currentIndex]['Comments'] = comments;
         }
 
         console.log("#current ", currentIndex);
         console.log("#1:", jsonData[currentIndex]['Cup/Disk_Ratio'])
         console.log("#2:", jsonData[currentIndex]['Image_Quality_Vocab.Name'])
         console.log("#3:", jsonData[currentIndex]['Diagnosis_Image_Vocab.Name'])
-        // if (comments) {
-        if (commentsRef.current.value) {
+        if (comments) {
             console.log("4:", jsonData[currentIndex]['Comments'])
         }
     }
@@ -121,43 +142,35 @@ const DetailsComponent = ({ jsonData }) => {
     //#2-0.9-no
     const handleValue1Change = (event) => {
         const selectedValue = event.target.value;
-        element1Ref.current.value = selectedValue;
-        // setSelectedValue1(selectedValue);
+        setSelectedValue1(selectedValue);
 
         console.log("value1 change:", event.target.value);
 
         const updatedValue3 = selectedValue >= 0.6 ? "Suspected Glaucoma" : "No Glaucoma";
-        element3Ref.current.value = updatedValue3;
-        // setSelectedValue3(updatedValue3);
-
-        console.log("value1(", selectedValue, ")updates value3(", element3Ref.current.value, ")");
+        setSelectedValue3(updatedValue3);
+        console.log("value1(", selectedValue, ")updates value3(", selectedValue3, ")");
 
         if ((selectedValue < 0.6 && updatedValue3 === "No Glaucoma") | (selectedValue >= 0.6 && updatedValue3 === "Suspected Glaucoma")) {
             console.log("no comments.")
-            commentsRef.current.value = undefined;
-            // setComments(undefined);
+            setComments(undefined);
 
         } else {
             console.log("add comments!")
-            commentsRef.current.value = '';
-            // setComments('');
+            setComments('');
         }
         forceUpdate();
     }
 
     const handleValue2Change = (event) => {
         const selectedValue = event.target.value;
-        element2Ref.current.value = selectedValue;
-        // setSelectedValue2(selectedValue);
+        setSelectedValue2(selectedValue);
 
         console.log("value2 change:", event.target.value);
-        forceUpdate();
     }
 
     const handleValue3Change = (event) => {
         const selectedValue = event.target.value;
-        element3Ref.current.value = selectedValue;
-        // setSelectedValue3(selectedValue);
+        setSelectedValue3(selectedValue);
 
         console.log("value3 change:", selectedValue);
 
@@ -165,33 +178,38 @@ const DetailsComponent = ({ jsonData }) => {
         if ((element1Ref.current.value >= 0.6 && selectedValue === "No Glaucoma") | (element1Ref.current.value < 0.6 && selectedValue === "Suspected Glaucoma")) {
             console.log("add comments!");
             if (currentObject['Comments'] === undefined) {
-                commentsRef.current.value = '';
-                // setComments('');
+                setComments('');
             } else if (currentObject['Comments'] !== '') {
-                commentsRef.current.value = currentObject['Comments'];
-                // setComments(currentObject['Comments']);
+                setComments(currentObject['Comments']);
             } else {
-                commentsRef.current.value = '';
-                // setComments('');
-
+                setComments('');
             }
 
         } else {
             console.log("no comments.")
-            commentsRef.current.value = undefined;
-            // setComments(undefined);
+            setComments(undefined);
         }
 
-        forceUpdate();
+        // console.log("value3 updates comments(", selectedValue, ")");
+        // if ((selectedValue1 > 0.7 && selectedValue == "No Glaucoma") | (selectedValue1 <= 0.7 && selectedValue == "Suspected Glaucoma")) {
+        //     console.log("add comments!")
+        //     setComments('');
+        // } else {
+        //     console.log("no comments.")
+        //     setComments(undefined);
+        // }
     }
 
     const handleTextareaChange = (event) => {
         const updatedComments = event.target.value;
-        commentsRef.current.value = updatedComments;
-        // setComments(updatedComments);
+        setComments(updatedComments);
 
         console.log("comments change:", updatedComments);
     };
+
+    const handleShowPanel = () => {
+        setPanelVisibility(true);
+    }
 
 
     ////////////////////////////////////////////////////////////////////////////////////////
@@ -226,15 +244,15 @@ const DetailsComponent = ({ jsonData }) => {
     const handleCtrlP = showPreviousObject
 
     const setValue1AndTrigger = (v) => {
-        // setSelectedValue1(v)
+        setSelectedValue1(v)
         handleValue1Change({ target: { value: v } })
     }
     const setValue2AndTrigger = (v) => {
-        // setSelectedValue2(v)
+        setSelectedValue2(v)
         handleValue2Change({ target: { value: v } })
     }
     const setValue3AndTrigger = (v) => {
-        // setSelectedValue3(v)
+        setSelectedValue3(v)
         handleValue3Change({ target: { value: v } })
     }
 
@@ -288,11 +306,15 @@ const DetailsComponent = ({ jsonData }) => {
                 <div className="container">
                     <div className="group">
                         <div className='vertical-items'>
-                            <button>
+                            <button onClick={handleShowPanel}>
                                 {currentIndex + 1}/{jsonData.length}
                             </button>
                             <SliderComponent maxNum={numberMax} onSelect={handleSliderChange} value={currentIndex
                                 + 1} />
+                            {/* {isPanelVisible && (
+                                <SliderComponent maxNum={numberMax} onSelect={handleSliderChange} />
+                                // <NumberChooser data={numbers} onSelect={handleSelect} />
+                            )} */}
                         </div>
 
 
@@ -309,17 +331,27 @@ const DetailsComponent = ({ jsonData }) => {
                                 <td>
                                     <div className='image-container'>
                                         <MapInteractionCSS>
-                                            {/* <img className="myImage" src={imageUrl} alt='eye-ball' /> */}
-                                            <img className="myImage" alt='eye-ball' ref={imageRef} />
+                                            {/* <ImageComponent imageUrl={imageUrl} /> */}
+                                            <img className="myImage" src={imageUrl} alt='eye-ball' />
                                         </MapInteractionCSS>
-
+                                        {/* <Zoom
+                                        img={imageUrl}
+                                        zoomScale={3}
+                                        width="100%"
+                                    /> */}
                                     </div>
+
+                                    {/* <ThingMap url={imageUrl} /> */}
+
+                                    {/* <ReactImageZoom {...props} alt="Image" class="image-class" scale="1.8" /> */}
+                                    {/* <ImageZoom imageUrl={imageUrl} /> */}
+                                    {/* <img src={imageUrl} alt="Placeholder" class="image-class" /> */}
                                 </td>
                             </tr>
                             <tr key="Cup/Disk_Ratio">
                                 <td>Cup/Disk_Ratio</td>
                                 <td>
-                                    <select onChange={handleValue1Change} ref={element1Ref}>
+                                    <select value={selectedValue1} onChange={handleValue1Change} ref={element1Ref}>
                                         {dropdown1.map((option) => (
                                             <option key={option} value={option}>
                                                 {/* {option === selectedValue2 ? `${option}` : option} */}
@@ -334,7 +366,7 @@ const DetailsComponent = ({ jsonData }) => {
                             <tr key="Diagnosis">
                                 <td>Diagnosis</td>
                                 <td>
-                                    <select onChange={handleValue3Change} ref={element3Ref}>
+                                    <select value={selectedValue3} onChange={handleValue3Change} ref={element3Ref}>
                                         {dropdown3.map((option) => (
                                             <option key={option} value={option}>
                                                 {option}
@@ -347,7 +379,7 @@ const DetailsComponent = ({ jsonData }) => {
                             <tr key="Image_Quality">
                                 <td>Image_Quality</td>
                                 <td>
-                                    <select onChange={handleValue2Change} ref={element2Ref} >
+                                    <select value={selectedValue2} onChange={handleValue2Change} ref={element2Ref}>
                                         {dropdown2.map((option) => (
                                             <option key={option} value={option}>
                                                 {option}
@@ -357,13 +389,13 @@ const DetailsComponent = ({ jsonData }) => {
                                 </td>
                             </tr>
 
-                            {commentsRef.current.value !== undefined && (
+                            {comments !== undefined && (
                                 <>
                                     <tr key="Comment">
                                         <td>Comments</td>
                                         <td>
-                                            <textarea placeholder="Explain your decision here ..."
-                                                onChange={handleTextareaChange} ref={commentsRef} ></textarea>
+                                            <textarea placeholder="Explain your decision here ..." value={comments}
+                                                onChange={handleTextareaChange}></textarea>
                                         </td>
                                     </tr>
                                 </>

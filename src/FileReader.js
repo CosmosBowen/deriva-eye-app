@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 // import DisplayComponent from './Display';
-import DetailsComponent from './DetailsComponent';
+// import DetailsComponent from './DetailsComponent';
+import DetailsComponent from './detail-hotkey';
 
 const FileReaderComponent = () => {
     const [jsonData, setJsonData] = useState(null);

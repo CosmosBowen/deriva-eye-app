@@ -2,6 +2,7 @@ import './App.css';
 import UrlReaderComponent from './UrlReader';
 import FileReaderComponent from './FileReader';
 import YourComponent from './test';
+import UrlParamsComponent from './urlParams';
 
 const currentUrl = "/hatrac/images/scans/subject/1000355/observation/1440097/image/14360313/b3eedb890fe27e18c9d940ed25810cec.jpg";
 const url = 'http://localhost:3001' + currentUrl;
@@ -13,6 +14,7 @@ function App() {
     <div className='body'>
       {/* <UrlReaderComponent /> */}
       <FileReaderComponent />
+      {/* <UrlParamsComponent /> */}
     </div>
   );
 }
